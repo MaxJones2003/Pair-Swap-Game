@@ -6,6 +6,6 @@ public class StartingProjectile : MonoBehaviour
 {
     void Start()
     {
-        GetComponent<Projectile>().PewPew(Vector2.up);
+        GetComponent<Projectile>().Fire(Vector2.up);
     }
 }

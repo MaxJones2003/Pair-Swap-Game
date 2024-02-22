@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class PlatformHandler : MonoBehaviour
@@ -7,24 +8,24 @@ public class PlatformHandler : MonoBehaviour
     public Camera cam;
     [SerializeField] private float yPosition = -8.5f;
     [SerializeField] private Vector2 xRange = new Vector2(-8.5f, 8.5f);
+    private Vector2 lastPosition;
+    private Vector2 velocity;
+    [Range(0, 1)]
+    public float biasFactor; // This factor can be adjusted to favor one vector over the other
 
-    private Rigidbody2D rb;
-    // Start is called before the first frame update
-    void Start()
-    {
-        rb = GetComponent<Rigidbody2D>();
-    }
-
-    // Update is called once per frame
     void Update()
     {
-        Vector2 mousePos = Input.mousePosition;
-        Vector2 camPos = cam.ScreenToWorldPoint(mousePos);
+        // Get the mouse position in world coordinates
+        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePosition = ClampHeight(mousePosition);
+        // Calculate the velocity based on the change in position
+        velocity = (mousePosition - lastPosition) / Time.deltaTime;
+        // Move the box to the mouse position
+        transform.position = mousePosition;
 
-        transform.position = ClampHeight(camPos);
-        Debug.Log(rb.velocity);
+        // Update the last position to the current mouse position
+        lastPosition = mousePosition;
     }
-
 
     Vector2 ClampHeight(Vector2 value)
     {
@@ -38,7 +39,9 @@ public class PlatformHandler : MonoBehaviour
     {
         if (collision.gameObject.TryGetComponent(out Projectile proj))
         {
-            Debug.Log(proj.rb.velocity.sqrMagnitude);
+            if(velocity == Vector2.zero) return;
+            velocity.x = Mathf.Clamp(velocity.x, -5, 5);
+            proj.AddVelocity(velocity);            
         }
     }
 }

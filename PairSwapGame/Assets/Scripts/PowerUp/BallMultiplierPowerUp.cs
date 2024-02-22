@@ -18,8 +18,7 @@ public class BallMultiplierPowerUp : AbstractPowerUp
             Projectile newProj = pref.GetComponent<Projectile>();
             Vector2 newDir = impactDirection + right * dirForceModifier;
             r *= -1;
-            Debug.Log(newProj);
-            newProj.PewPew(newDir.normalized);
+            newProj.Fire(newDir.normalized);
 
         }
         Destroy(gameObject);

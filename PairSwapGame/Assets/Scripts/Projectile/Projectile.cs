@@ -24,7 +24,7 @@ public class Projectile : MonoBehaviour
     }
 
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    protected virtual void OnCollisionEnter2D(Collision2D collision)
     {
         float x = Random.Range(0f, 1f);
         float y = Random.Range(0f, 1f);
@@ -34,7 +34,12 @@ public class Projectile : MonoBehaviour
         spriteRenderer.color = c;
         if(collision.transform.TryGetComponent(out AbstractDamageable damageScript))
         {
-            damageScript.TakeDamage(damage, -collision.relativeVelocity);
+            HitDamageable(damageScript, -collision.relativeVelocity);
         }
+    }
+
+    protected virtual void HitDamageable(AbstractDamageable damageScript, Vector2 hitVelocity)
+    {
+        damageScript.TakeDamage(damage, hitVelocity);
     }
 }

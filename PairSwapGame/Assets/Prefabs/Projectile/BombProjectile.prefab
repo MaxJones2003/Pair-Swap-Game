@@ -93,7 +93,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1807790480105388014}
-  - component: {fileID: -7653082370219165964}
   - component: {fileID: 9175268753259157380}
   - component: {fileID: 7128312910161176115}
   - component: {fileID: 8943595212184181394}
@@ -120,27 +119,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &-7653082370219165964
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6003854093055631951}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!58 &9175268753259157380
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -217,5 +195,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 1
   rb: {fileID: 7128312910161176115}
+  sprite: {fileID: 3488342050679585570}
   numOfHits: 5
   damageGrowthRate: 2

@@ -45,5 +45,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ProjectilePrefabs:
-  - {fileID: 4121436350178796579, guid: 308407dd294a4bb49a160281d0bc9ac1, type: 3}
+  - {fileID: 1420454790872155433, guid: eb08bb9196b13ce4abac21dc73f8de9b, type: 3}
   - {fileID: 6003854093055631951, guid: 24e0217887d734d4e98a31f608cfd701, type: 3}

@@ -13,21 +13,34 @@ public class BombProjectile : Projectile
     {
         base.OnCollisionEnter2D(other);
         
-        Grow();
+        Grow(-other.relativeVelocity);
 
     }
     protected override void HitDamageable(AbstractDamageable damageScript, Vector2 hitVelocity)
     {
         base.HitDamageable(damageScript, hitVelocity);
+        ReturnToBaseProjectile(hitVelocity);
     }
 
-    private void Grow()
+    private void Grow(Vector2 hitVelocity)
     {
-        transform.localScale *= 1.25f;
+        scale *=1.25f;
+        transform.localScale = scale;
         damage += damageGrowthRate;
 
         hits++;
         if(hits >= numOfHits)
-            Destroy(gameObject);
+        {
+            ReturnToBaseProjectile(hitVelocity);
+        }
+    }
+
+    private void ReturnToBaseProjectile(Vector3 hitVelocity)
+    {
+        Projectile newProj = Instantiate(ProjectileMaster.Instance.ProjectilePrefabs[(int)EProjectileType.Basic], 
+                    transform.position, 
+                    Quaternion.identity).GetComponent<Projectile>();
+        newProj.Fire(hitVelocity.normalized);
+        Destroy(gameObject);
     }
 }

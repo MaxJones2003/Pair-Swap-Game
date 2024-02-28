@@ -12,16 +12,16 @@ public class BallMultiplierPowerUp : AbstractPowerUp
         int r = 1;
         for(int i = 0; i < 2; i++)
         {
-            Vector2 right = (Vector2.right * r);
+            Vector2 right = Vector2.right * r;
            
             GameObject pref = Instantiate(testPrefab, projectile.transform.position + (new Vector3(right.x, right.y, 0) * spawnDistModifier), Quaternion.identity);
             Projectile newProj = pref.GetComponent<Projectile>();
+            
             Vector2 newDir = impactDirection + right * dirForceModifier;
             r *= -1;
             newProj.Fire(newDir.normalized);
 
         }
         Destroy(gameObject);
-
     }
 }

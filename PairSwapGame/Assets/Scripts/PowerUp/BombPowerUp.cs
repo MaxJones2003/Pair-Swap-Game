@@ -7,10 +7,10 @@ public class BombPowerUp : AbstractPowerUp
     public GameObject BombPrefab;
     public override void ApplyPowerUp(Projectile projectile, Vector2 impactDirection)
     {
-        Vector2 vel = projectile.rb.velocity;
         Projectile newProj = Instantiate(BombPrefab, projectile.transform.position, Quaternion.identity).GetComponent<Projectile>();
-        Destroy(projectile.gameObject);
+        TakeOldValues(projectile, newProj);
 
-        newProj.rb.velocity = vel;
+        newProj.Fire(impactDirection.normalized);
+        Destroy(projectile.gameObject);
     }
 }

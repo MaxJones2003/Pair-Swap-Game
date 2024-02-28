@@ -8,7 +8,11 @@ public abstract class AbstractPowerUp : MonoBehaviour
     // Start is called before the first frame update
 
     public abstract void ApplyPowerUp(Projectile projectile, Vector2 impactDirection);
-
+    protected virtual void TakeOldValues(Projectile oldProj, Projectile newProj)
+    {
+        newProj.transform.localScale = oldProj.transform.localScale;
+        newProj.damage = oldProj.damage;
+    }
     private Vector2 GetDirection(Projectile projectile)
     {
         return projectile.rb.velocity;

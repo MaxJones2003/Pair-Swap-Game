@@ -16,7 +16,7 @@ public class PlatformHandler : MonoBehaviour
     void Update()
     {
         // Get the mouse position in world coordinates
-        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 mousePosition = cam.ScreenToWorldPoint(Input.mousePosition);
         mousePosition = ClampHeight(mousePosition);
         // Calculate the velocity based on the change in position
         velocity = (mousePosition - lastPosition) / Time.deltaTime;

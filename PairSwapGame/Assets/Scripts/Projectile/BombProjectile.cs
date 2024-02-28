@@ -24,8 +24,7 @@ public class BombProjectile : Projectile
 
     private void Grow(Vector2 hitVelocity)
     {
-        scale *=1.25f;
-        transform.localScale = scale;
+        transform.localScale *= 1.5f;
         damage += damageGrowthRate;
 
         hits++;

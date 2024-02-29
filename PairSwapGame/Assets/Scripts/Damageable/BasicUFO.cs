@@ -7,6 +7,7 @@ public class BasicUFO : AbstractDamageable
     public override void TakeDamage(int dmg, Vector2 impactDirection)
     {
         Health -= dmg;
+        WaveManager.Instance.TotalEnemyHealth -= dmg;
         Jitter(impactDirection);
         if(Health <= 0) Died();
     }

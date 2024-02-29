@@ -15,7 +15,7 @@ public abstract class AbstractDamageable : MonoBehaviour
     private const float jitterDistance =  0.1f; // The distance to jitter
     private const float jitterDuration =  0.1f; // The duration of the jitter animation
     private const float returnDuration =  0.1f; // The duration to return to the original position
-
+    
     public void Jitter(Vector2 direction)
     {
         originalPosition = transform.position;
@@ -43,6 +43,13 @@ public abstract class AbstractDamageable : MonoBehaviour
             elapsedTime += Time.deltaTime;
             yield return null;
         }
+    }
+    #endregion
+
+    #region  Setup
+    public void SetUp(int health)
+    {
+        Health = health;
     }
     #endregion
 }

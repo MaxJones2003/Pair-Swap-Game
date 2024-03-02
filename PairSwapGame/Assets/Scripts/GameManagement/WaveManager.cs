@@ -5,11 +5,11 @@ using UnityEngine;
 
 public class WaveManager : MonoBehaviour
 {
-    public static WaveManager Instance { get; private set; }
+    public static WaveManager Instance;
     public GameObject[] enemyPrefabs;
     [HideInInspector] public List<AbstractDamageable> spawnedEnemies;
     private int currentWave = 0;
-    private int currentHealthGate = 100;
+    [SerializeField] private int currentHealthGate = 100;
     [SerializeField] private int totalEnemyHealth = 0;
     public int TotalEnemyHealth
     {
@@ -31,6 +31,9 @@ public class WaveManager : MonoBehaviour
 
     private EEnemyType[] plannedEnemies = new EEnemyType[10];
     private int enemyIndex = 0;
+
+    [SerializeField] private Vector2 spawnRight, spawnLeft;
+    private bool leftOrRight;
 
     void Awake()
     {
@@ -55,14 +58,21 @@ public class WaveManager : MonoBehaviour
         if(enemyIndex >= plannedEnemies.Length)
             SetNextEnemies();
         EEnemyType enemyEnum = plannedEnemies[enemyIndex++];
-
-        AbstractDamageable enemyScript = Instantiate(enemyPrefabs[(int)enemyEnum], Vector3.zero, Quaternion.identity).GetComponent<AbstractDamageable>();
-
+        int enemyEnumValue = (int)enemyEnum;
+        AbstractDamageable enemyScript = ObjectPoolManager.SpawnObject(enemyPrefabs[enemyEnumValue], leftOrRight ? spawnLeft : spawnRight, Quaternion.identity,
+                                                            (int)EPoolableObjectType.Enemy, enemyEnumValue).GetComponent<AbstractDamageable>();
+        leftOrRight = !leftOrRight;
         int health = PickHealth(enemyEnum);
-
-        enemyScript.SetUp(health);
+        Vector2 finalPos = SelectTargetPos();
+        enemyScript.SetUp(health, finalPos);
         TotalEnemyHealth += health;
     }
+
+    private Vector2 SelectTargetPos()
+    {
+        return new Vector2(2, 5);
+    }
+
     public AbstractDamageable PickEnemyToSpawn()
     {
         
@@ -91,6 +101,12 @@ public class WaveManager : MonoBehaviour
         }
         enemyIndex = 0;
     }
+    private static readonly Vector2 Size = new Vector2(0.5f, 0.5f);
+    void OnDrawGizmos()
+    {
+        Gizmos.DrawCube(spawnLeft, Size);
+        Gizmos.DrawCube(spawnRight, Size);
+    }
 }
 public static class RandomExtensions
 {   
@@ -99,11 +115,4 @@ public static class RandomExtensions
         var values = (T[])Enum.GetValues(typeof(T));
         return values[random.Next(values.Length)];
     }
-}
-public enum EEnemyType
-{
-    Small,
-    Big,
-    Abductor,
-    Dropper
 }

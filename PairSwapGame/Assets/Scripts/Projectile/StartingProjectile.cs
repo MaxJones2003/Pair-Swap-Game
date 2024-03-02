@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class StartingProjectile : MonoBehaviour
 {
+    [SerializeField] private GameObject startingProjectile;
     void Start()
     {
-        GetComponent<Projectile>().Fire(Vector2.up);
+        ObjectPoolManager.SpawnObject(startingProjectile, transform.position, 
+            Quaternion.identity, (int)EPoolableObjectType.Projectile, 
+            (int)EProjectileType.Basic).GetComponent<Projectile>().Fire(Vector2.up);
     }
 }

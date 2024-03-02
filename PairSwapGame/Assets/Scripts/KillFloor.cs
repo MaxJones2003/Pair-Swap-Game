@@ -10,7 +10,7 @@ public class KillFloor : MonoBehaviour
     {
         if(collision.gameObject.layer == layerMask)
         {
-            Destroy(collision.gameObject);
+            ObjectPoolManager.ReturnObjectToPool(collision.gameObject, (int)EPoolableObjectType.Projectile, (int)collision.gameObject.GetComponent<Projectile>().projectileType);
         }
     }
 }

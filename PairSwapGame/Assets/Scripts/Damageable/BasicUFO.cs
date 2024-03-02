@@ -12,8 +12,4 @@ public class BasicUFO : AbstractDamageable
         if(Health <= 0) Died();
     }
 
-    public override void Died()
-    {
-        Destroy(gameObject);
-    }
 }

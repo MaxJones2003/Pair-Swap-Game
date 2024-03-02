@@ -2,11 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum EProjectileType
-{
-    Basic,
-    Bomb
-}
 public class ProjectileMaster : MonoBehaviour
 {
     public GameObject[] ProjectilePrefabs;

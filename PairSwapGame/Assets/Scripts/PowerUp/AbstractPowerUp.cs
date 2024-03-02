@@ -6,7 +6,7 @@ public abstract class AbstractPowerUp : MonoBehaviour
 {
     static LayerMask layerMask = 6;
     // Start is called before the first frame update
-
+    private bool activated = false;
     public abstract void ApplyPowerUp(Projectile projectile, Vector2 impactDirection);
     protected virtual void TakeOldValues(Projectile oldProj, Projectile newProj)
     {
@@ -20,11 +20,12 @@ public abstract class AbstractPowerUp : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if(activated) return;
         if (collision.gameObject.layer == layerMask)
         {
             if (collision.gameObject.TryGetComponent(out Projectile projectile))
             {
-                
+                activated = true;
                 ApplyPowerUp(projectile, GetDirection(projectile));
                 Destroy(gameObject);
             }

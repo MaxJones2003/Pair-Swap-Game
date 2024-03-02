@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 2923241908098746822}
   - component: {fileID: 113507807568374520}
   - component: {fileID: 5975540105229904404}
-  - component: {fileID: 7236834857130285213}
   m_Layer: 6
   m_Name: Ball
   m_TagString: Untagged
@@ -50,6 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 1
   rb: {fileID: 113507807568374520}
+  projectileType: 0
   sprite: {fileID: 2631355900804483472}
 --- !u!50 &113507807568374520
 Rigidbody2D:
@@ -113,18 +113,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &7236834857130285213
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1420454790872155433}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6066bf5a1635e6e46becb4316d3c47e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &8077195086003943855
 GameObject:
   m_ObjectHideFlags: 0

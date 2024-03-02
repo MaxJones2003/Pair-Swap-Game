@@ -7,10 +7,10 @@ public class BombPowerUp : AbstractPowerUp
     public GameObject BombPrefab;
     public override void ApplyPowerUp(Projectile projectile, Vector2 impactDirection)
     {
-        Projectile newProj = Instantiate(BombPrefab, projectile.transform.position, Quaternion.identity).GetComponent<Projectile>();
+        Projectile newProj = ObjectPoolManager.SpawnObject(BombPrefab, projectile.transform.position, Quaternion.identity, (int)EPoolableObjectType.Projectile, (int)EProjectileType.Bomb).GetComponent<Projectile>();
         TakeOldValues(projectile, newProj);
 
         newProj.Fire(impactDirection.normalized);
-        Destroy(projectile.gameObject);
+        ObjectPoolManager.ReturnObjectToPool(projectile.gameObject, (int)EPoolableObjectType.Projectile, (int)projectile.projectileType);
     }
 }

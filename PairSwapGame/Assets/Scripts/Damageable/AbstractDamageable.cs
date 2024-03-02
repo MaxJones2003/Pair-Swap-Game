@@ -1,12 +1,18 @@
 using System.Collections;
+using Unity.Collections;
 using UnityEngine;
 
 public abstract class AbstractDamageable : MonoBehaviour
 {
     #region Health Stuff
     [SerializeField] protected int Health = 50;
+    public EEnemyType enemyType;
     public abstract void TakeDamage(int dmg, Vector2 impactDirection);
-    public abstract void Died();
+    protected virtual void Died()
+    {
+        ScoreManager.Instance.IncreaseScore(enemyType);
+        ObjectPoolManager.ReturnObjectToPool(gameObject, (int)EPoolableObjectType.Enemy, (int)enemyType);
+    }
     #endregion
 
 
@@ -18,6 +24,7 @@ public abstract class AbstractDamageable : MonoBehaviour
     
     public void Jitter(Vector2 direction)
     {
+        if(Health <= 0) return;
         originalPosition = transform.position;
         StartCoroutine(JitterAnimationCoroutine(direction));
     }
@@ -47,9 +54,29 @@ public abstract class AbstractDamageable : MonoBehaviour
     #endregion
 
     #region  Setup
-    public void SetUp(int health)
+    public AnimationCurve moveCurve; // Define the animation curve in the Unity Editor
+    public void SetUp(int health, Vector2 targetPos)
     {
         Health = health;
+        StartCoroutine(MoveToPosition(targetPos, 1f));
     }
     #endregion
+
+
+    IEnumerator MoveToPosition(Vector3 target, float duration)
+    {
+        Vector3 start = transform.position;
+        float elapsedTime = 0;
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = elapsedTime / duration; // Normalized time
+            float curveValue = moveCurve.Evaluate(t); // Apply the animation curve
+            transform.position = Vector3.Lerp(start, target, curveValue);
+            yield return null; // Wait for the next frame
+        }
+
+        transform.position = target; // Ensure the final position is exactly the target
+    }
 }

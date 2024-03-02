@@ -8,7 +8,7 @@ public class Projectile : MonoBehaviour
 {
     public int damage = 1;
     public Rigidbody2D rb;
-
+    public EProjectileType projectileType;
     [SerializeField] private Transform sprite;
 
     private const float force = 10;
@@ -72,7 +72,7 @@ public class Projectile : MonoBehaviour
         hitNormal.y = Mathf.Abs(hitNormal.y);
         float elapsed = 0f;
         Vector3 originalScale = oneVector;
-        Vector3 squishScale = originalScale - new Vector3(hitNormal.x, hitNormal.y, 0) * squishAmount;
+        Vector3 squishScale = originalScale - (Vector3)hitNormal * squishAmount;
 
         while (elapsed < squishDuration)
         {

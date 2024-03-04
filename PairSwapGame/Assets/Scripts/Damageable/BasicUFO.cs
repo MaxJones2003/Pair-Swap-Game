@@ -10,6 +10,7 @@ public class BasicUFO : AbstractDamageable
         WaveManager.Instance.TotalEnemyHealth -= dmg;
         Jitter(impactDirection);
         if(Health <= 0) Died();
+        else SwitchColorIndex(Health);
     }
 
 }

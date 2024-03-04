@@ -93,4 +93,15 @@ public class Projectile : MonoBehaviour
         }
     }
     #endregion
+
+
+
+    void OnEnable()
+    {
+        ProjectileMaster.Instance.CurrentNumOfProjectiles++;
+    }
+    void OnDisable()
+    {
+        ProjectileMaster.Instance.CurrentNumOfProjectiles--;
+    }
 }

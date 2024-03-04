@@ -1,9 +1,11 @@
 using System.Collections;
 using Unity.Collections;
 using UnityEngine;
+using UnityEngine.U2D;
 
 public abstract class AbstractDamageable : MonoBehaviour
 {
+    [SerializeField] private SpriteShapeRenderer spriteRenderer;
     #region Health Stuff
     [SerializeField] protected int Health = 50;
     public EEnemyType enemyType;
@@ -53,11 +55,48 @@ public abstract class AbstractDamageable : MonoBehaviour
     }
     #endregion
 
+    #region Color
+    private static readonly Color[] healthColors = new Color[] { Color.black, Color.red, new Color(255, 180, 0), Color.green, Color.cyan };
+    private int currentColorIndex = 0;
+    
+    protected void SwitchColorIndex(int health)
+    {
+        int newIndex = 0;
+        switch (health)
+        {
+            case int n when n >= 0 && n <= 20:
+                newIndex = 4;
+                break;
+            case int n when n > 20 && n <= 60:
+                newIndex = 3;
+                break;
+            case int n when n > 60 && n <= 100:
+                newIndex = 2;
+                break;
+            case int n when n > 60 && n <= 100:
+                newIndex = 1;
+                break;
+            case int n when n > 60 && n <= 100:
+                newIndex = 0;
+                break;
+            default:
+                newIndex = currentColorIndex;
+                break;
+        }
+        if(newIndex != currentColorIndex)
+        {
+            currentColorIndex = newIndex;
+            spriteRenderer.color = healthColors[currentColorIndex];
+        }
+    }
+    #endregion
+
     #region  Setup
     public AnimationCurve moveCurve; // Define the animation curve in the Unity Editor
     public void SetUp(int health, Vector2 targetPos)
     {
         Health = health;
+        SwitchColorIndex(health);
         StartCoroutine(MoveToPosition(targetPos, 1f));
     }
     #endregion

@@ -18,7 +18,7 @@ public class BallMultiplierPowerUp : AbstractPowerUp
                 Quaternion.identity, (int)EPoolableObjectType.Projectile, (int)projectile.projectileType);
                 
             Projectile newProj = pref.GetComponent<Projectile>();
-            
+            newProj.Setup(Projectile.DefaultProjectileInfo);
             Vector2 newDir = (impactDirection + right) * dirForceModifier;
             newProj.Fire(newDir.normalized);
 

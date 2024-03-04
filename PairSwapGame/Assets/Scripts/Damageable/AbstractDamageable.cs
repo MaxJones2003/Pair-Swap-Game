@@ -64,19 +64,19 @@ public abstract class AbstractDamageable : MonoBehaviour
         int newIndex = 0;
         switch (health)
         {
-            case int n when n >= 0 && n <= 20:
+            case int n when n >= 0 && n <= 5:
                 newIndex = 4;
                 break;
-            case int n when n > 20 && n <= 60:
+            case int n when n > 5 && n <= 15:
                 newIndex = 3;
                 break;
-            case int n when n > 60 && n <= 100:
+            case int n when n > 15 && n <= 25:
                 newIndex = 2;
                 break;
-            case int n when n > 60 && n <= 100:
+            case int n when n > 25 && n <= 35:
                 newIndex = 1;
                 break;
-            case int n when n > 60 && n <= 100:
+            case int n when n > 35:
                 newIndex = 0;
                 break;
             default:

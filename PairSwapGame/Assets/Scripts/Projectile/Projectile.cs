@@ -8,15 +8,26 @@ public class Projectile : MonoBehaviour
 {
     public int damage = 1;
     public Rigidbody2D rb;
+
     public EProjectileType projectileType;
+    public ProjectileInfo Info;
+
     [SerializeField] private Transform sprite;
 
     private const float force = 10;
     private readonly static Vector2 zeroVector = new(0, 0);
     private readonly static Vector2 oneVector = new(1, 1);
+    public readonly static ProjectileInfo DefaultProjectileInfo = new ProjectileInfo() { Scale = oneVector, Damage = 1 };
 
-    private float lastHitYPosition = 0;
-    private readonly static Vector2 slightDownForce = new(0, -0.1f);
+    protected float lastHitYPosition = 0;
+    protected readonly static Vector2 slightDownForce = new(0, -0.1f);
+
+    public void Setup(ProjectileInfo info)
+    {
+        Info = info;
+        transform.localScale = info.Scale;
+        damage = info.Damage;
+    }
 
     public void Fire(Vector2 direction)
     {
@@ -63,7 +74,7 @@ public class Projectile : MonoBehaviour
     private const float squishAmount = 0.1f;
     private const float squishDuration = 0.1f;
 
-    IEnumerator SquishCoroutine(Vector2 hitNormal)
+    protected IEnumerator SquishCoroutine(Vector2 hitNormal)
     {
         //float x = Mathf.Abs(hitNormal.x);
         // hitNormal.x = Mathf.Abs(hitNormal.y);

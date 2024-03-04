@@ -7,8 +7,11 @@ public class StartingProjectile : MonoBehaviour
     [SerializeField] private GameObject startingProjectile;
     void Start()
     {
-        ObjectPoolManager.SpawnObject(startingProjectile, transform.position, 
+        Projectile proj = ObjectPoolManager.SpawnObject(startingProjectile, transform.position, 
             Quaternion.identity, (int)EPoolableObjectType.Projectile, 
-            (int)EProjectileType.Basic).GetComponent<Projectile>().Fire(Vector2.up);
+            (int)EProjectileType.Basic).GetComponent<Projectile>();
+        proj.Setup(Projectile.DefaultProjectileInfo);
+        proj.Fire(Vector2.up);
+
     }
 }

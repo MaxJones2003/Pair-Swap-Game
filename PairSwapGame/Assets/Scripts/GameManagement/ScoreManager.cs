@@ -1,10 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
 {
+    public TMP_Text text;
     public static ScoreManager Instance;
 
     public int score = 0;
@@ -34,6 +36,7 @@ public class ScoreManager : MonoBehaviour
     public void IncreaseScore(EEnemyType type)
     {
         score += Scores[(int)type];
+        text.text = score.ToString();
     }
 
     

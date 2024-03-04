@@ -34,6 +34,7 @@ public class WaveManager : MonoBehaviour
 
     [SerializeField] private Vector2 spawnRight, spawnLeft;
     private bool leftOrRight;
+    Bounds bounds;
 
     void Awake()
     {
@@ -46,6 +47,7 @@ public class WaveManager : MonoBehaviour
         {
             Destroy(gameObject); // Destroy any duplicates
         }
+        bounds = GetComponent<BoxCollider2D>().bounds;
 
         SetNextEnemies();
         SpawnEnemy();
@@ -70,14 +72,16 @@ public class WaveManager : MonoBehaviour
 
     private Vector2 SelectTargetPos()
     {
-        return new Vector2(2, 5);
+        // Calculate the random position within the bounds
+        float randomX = UnityEngine.Random.Range(bounds.min.x, bounds.max.x);
+        float randomY = UnityEngine.Random.Range(bounds.min.y, bounds.max.y);
+
+        // Convert the local coordinates to world position
+        Vector2 worldPosition = new Vector2(randomX, randomY);
+
+        return worldPosition;
     }
 
-    public AbstractDamageable PickEnemyToSpawn()
-    {
-        
-        return null;
-    }
 
     public int PickHealth(EEnemyType enemyType)
     {

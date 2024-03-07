@@ -9,12 +9,10 @@ public class TempRestart : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Escape))
         {
-            Debug.Log("Esc");
             Application.Quit();
         }
         else if(Input.GetKeyDown(KeyCode.Tab))
         {
-            Debug.Log("tab");
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }

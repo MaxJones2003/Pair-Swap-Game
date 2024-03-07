@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class ProjectileMaster : MonoBehaviour
 {
     public GameObject[] ProjectilePrefabs;
+    public GameObject EnemyProjectile;
     public static ProjectileMaster Instance;
 
     private int _currentNumOfProjectiles = 0;

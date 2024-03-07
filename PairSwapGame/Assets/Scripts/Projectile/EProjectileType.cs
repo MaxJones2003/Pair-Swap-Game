@@ -1,5 +1,6 @@
 public enum EProjectileType
 {
     Basic,
-    Bomb
+    Bomb,
+    Enemy
 }

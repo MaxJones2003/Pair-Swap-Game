@@ -15,6 +15,7 @@ public class Projectile : MonoBehaviour
     [SerializeField] private Transform sprite;
 
     private const float force = 10;
+    public readonly static Vector2 upVector = new(0, 1);
     private readonly static Vector2 zeroVector = new(0, 0);
     private readonly static Vector2 oneVector = new(1, 1);
     public readonly static ProjectileInfo DefaultProjectileInfo = new ProjectileInfo() { Scale = oneVector, Damage = 1 };
@@ -54,8 +55,8 @@ public class Projectile : MonoBehaviour
         {
             HitDamageable(damageScript, -collision.relativeVelocity);
         }
-        
-        StartCoroutine(SquishCoroutine(-collision.relativeVelocity));
+        else if(collision.gameObject.layer != 7)
+            StartCoroutine(SquishCoroutine(-collision.relativeVelocity));
 
         float lastY = transform.position.y;
         if(lastHitYPosition == lastY)
@@ -107,11 +108,11 @@ public class Projectile : MonoBehaviour
 
 
 
-    void OnEnable()
+    protected virtual void OnEnable()
     {
         ProjectileMaster.Instance.CurrentNumOfProjectiles++;
     }
-    void OnDisable()
+    protected virtual void OnDisable()
     {
         ProjectileMaster.Instance.CurrentNumOfProjectiles--;
     }

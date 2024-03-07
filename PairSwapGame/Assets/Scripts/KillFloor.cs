@@ -5,12 +5,11 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class KillFloor : MonoBehaviour
 {
-    static LayerMask layerMask = 6;
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.layer == layerMask)
+        if(collision.gameObject.TryGetComponent(out Projectile projectile))
         {
-            ObjectPoolManager.ReturnObjectToPool(collision.gameObject, (int)EPoolableObjectType.Projectile, (int)collision.gameObject.GetComponent<Projectile>().projectileType);
+            ObjectPoolManager.ReturnObjectToPool(collision.gameObject, (int)EPoolableObjectType.Projectile, (int)projectile.projectileType);
         }
     }
 }

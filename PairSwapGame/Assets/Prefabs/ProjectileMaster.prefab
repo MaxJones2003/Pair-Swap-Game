@@ -47,3 +47,4 @@ MonoBehaviour:
   ProjectilePrefabs:
   - {fileID: 1420454790872155433, guid: eb08bb9196b13ce4abac21dc73f8de9b, type: 3}
   - {fileID: 6003854093055631951, guid: 24e0217887d734d4e98a31f608cfd701, type: 3}
+  EnemyProjectile: {fileID: 1420454790872155433, guid: e60b07c6ca19f1c4dae522037c4a9cdf, type: 3}

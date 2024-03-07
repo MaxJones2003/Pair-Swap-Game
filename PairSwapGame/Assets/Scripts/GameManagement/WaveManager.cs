@@ -105,7 +105,7 @@ public class WaveManager : MonoBehaviour
         }
         enemyIndex = 0;
     }
-    private static readonly Vector2 Size = new Vector2(0.5f, 0.5f);
+    private static readonly Vector2 Size = new(0.5f, 0.5f);
     void OnDrawGizmos()
     {
         Gizmos.DrawCube(spawnLeft, Size);

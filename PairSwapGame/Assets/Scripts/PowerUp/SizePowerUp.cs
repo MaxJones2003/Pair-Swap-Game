@@ -6,7 +6,8 @@ public class SizePowerUp : AbstractPowerUp
 {
     public override void ApplyPowerUp(Projectile projectile, Vector2 impactDirection)
     {
-        projectile.transform.localScale *= 1.5f;
+        projectile.Info.Scale *= 1.5f;
+        projectile.transform.localScale = projectile.Info.Scale;
         projectile.damage *= 2;
     }
 }

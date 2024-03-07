@@ -37,7 +37,8 @@ public class BombProjectile : Projectile
 
     private void Grow(Vector2 hitVelocity)
     {
-        transform.localScale *= 1.5f;
+        Info.Scale *= 1.5f;
+        transform.localScale = Info.Scale;
         damage += damageGrowthRate;
 
         hits++;
@@ -58,6 +59,7 @@ public class BombProjectile : Projectile
 
     public void SetupPreviousProjectile(EProjectileType type, Vector2 scale, int damage)
     {
-        previousProjectileInfo = new ProjectileInfo(type, scale, damage);
+        Info = new ProjectileInfo(type, scale, damage);
+        previousProjectileInfo = Info;
     }
 }

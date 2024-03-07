@@ -22,7 +22,7 @@ public class Projectile : MonoBehaviour
     protected float lastHitYPosition = 0;
     protected readonly static Vector2 slightDownForce = new(0, -0.1f);
 
-    public void Setup(ProjectileInfo info)
+    public virtual void Setup(ProjectileInfo info)
     {
         Info = info;
         transform.localScale = info.Scale;

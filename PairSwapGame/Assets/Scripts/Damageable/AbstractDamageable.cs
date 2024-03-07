@@ -5,6 +5,7 @@ using UnityEngine.U2D;
 
 public abstract class AbstractDamageable : MonoBehaviour
 {
+    public static System.Random rand = new System.Random();
     [SerializeField] private SpriteShapeRenderer spriteRenderer;
     #region Health Stuff
     [SerializeField] protected int Health = 50;
@@ -117,5 +118,10 @@ public abstract class AbstractDamageable : MonoBehaviour
         }
 
         transform.position = target; // Ensure the final position is exactly the target
+    }
+
+    protected void DropPowerup()
+    {
+        PowerUpMaster.Instance.PickRandomPowerUp(transform.position, Quaternion.identity);
     }
 }

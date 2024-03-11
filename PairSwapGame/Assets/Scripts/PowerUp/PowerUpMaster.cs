@@ -24,4 +24,8 @@ public class PowerUpMaster : MonoBehaviour
         int index = AbstractDamageable.rand.Next(0, PowerUpLength);
         return ObjectPoolManager.SpawnObject(PowerUpPrefabs[index], position, rotation, 2, index).GetComponent<AbstractPowerUp>();
     }
+    public AbstractPowerUp SpawnPowerUp(int index, Vector3 position, Quaternion rotation)
+    {
+        return ObjectPoolManager.SpawnObject(PowerUpPrefabs[index], position, rotation, 2, index).GetComponent<AbstractPowerUp>();
+    }
 }

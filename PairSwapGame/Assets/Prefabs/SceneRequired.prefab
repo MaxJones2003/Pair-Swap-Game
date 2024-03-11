@@ -137,7 +137,7 @@ MonoBehaviour:
   enemyPrefabs:
   - {fileID: 5328921699656991575, guid: c4283575248bc83458a78b112b5e69ad, type: 3}
   - {fileID: 5328921699656991575, guid: 1f6da9897cefb6e4e92191797ba3fe74, type: 3}
-  - {fileID: 5328921699656991575, guid: 8b8d705d630dd9e4387e46c1a76ee31b, type: 3}
+  - {fileID: 4651081290908582681, guid: 8b8d705d630dd9e4387e46c1a76ee31b, type: 3}
   - {fileID: 5328921699656991575, guid: 89381d09957439a4297f1f155007e168, type: 3}
   spawnedEnemies: []
   currentHealthGate: 10
@@ -194,7 +194,6 @@ MonoBehaviour:
   cam: {fileID: 7959732738693295360}
   yPosition: -8.5
   xRange: {x: -8.5, y: 8.5}
-  speed: 1
   biasFactor: 0.51
 --- !u!212 &7354270339543904575
 SpriteRenderer:

@@ -78,6 +78,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1223fd30a291434ebd49e975132e9b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UFO: {fileID: 0}
+  destroyTarget: {fileID: 0}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 64
   currentRigidbody: {fileID: 0}
   target: {fileID: 3694322390153951828}
   slowDownRate: 0.15

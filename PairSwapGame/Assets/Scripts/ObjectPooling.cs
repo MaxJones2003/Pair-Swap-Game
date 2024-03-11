@@ -19,11 +19,12 @@ public class ObjectPoolManager : MonoBehaviour
     {
         _objectPoolEmptyHolder = new GameObject("Pooled Objects").transform;
 
-        _enemyParent = new GameObject("Enemies").transform;
         _projectileParent = new GameObject("Projectiles").transform;
+        _enemyParent = new GameObject("Enemies").transform;
 
-        _enemyParent.SetParent(_objectPoolEmptyHolder);
         _projectileParent.SetParent(_objectPoolEmptyHolder);
+        _enemyParent.SetParent(_objectPoolEmptyHolder);
+        TempRestart.Instance.BallParent = _projectileParent;
     }
 
     public static GameObject SpawnObject(GameObject objectToSpawn, Vector3 spawnPosition, Quaternion spawnRotation, int objectType, int subType)
@@ -36,17 +37,17 @@ public class ObjectPoolManager : MonoBehaviour
             ObjectPools.Add(pool);
         }
 
-        GameObject spawnableObj = pool.InactiveObjects.FirstOrDefault();
+        GameObject spawnableObj;
 
-        if(spawnableObj == null)
+        if(pool.InactiveObjects.Count == 0)
         {
             spawnableObj = Instantiate(objectToSpawn, spawnPosition, spawnRotation);
             spawnableObj.transform.SetParent(objectType == 0 ? _projectileParent : objectType == 1 ? _enemyParent : _objectPoolEmptyHolder); // choose between the enemy, projectile, and default parent
         }
         else
         {
+            spawnableObj = pool.InactiveObjects.Dequeue();
             spawnableObj.transform.SetPositionAndRotation(spawnPosition, spawnRotation);
-            pool.InactiveObjects.Remove(spawnableObj);
             spawnableObj.SetActive(true);
         }
 
@@ -64,7 +65,7 @@ public class ObjectPoolManager : MonoBehaviour
         else
         {
             obj.SetActive(false);
-            pool.InactiveObjects.Add(obj);
+            pool.InactiveObjects.Enqueue(obj);
         }
     }
 }
@@ -73,7 +74,7 @@ public class PooledObjectInfo
 {
     public int ObjectType;
     public int SubType;
-    public List<GameObject> InactiveObjects = new List<GameObject>();
+    public Queue<GameObject> InactiveObjects = new Queue<GameObject>();
 }
 
 public enum EPoolableObjectType

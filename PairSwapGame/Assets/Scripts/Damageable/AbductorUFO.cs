@@ -7,20 +7,8 @@ public class AbductorUFO : AbstractDamageable
 {
     private const int projectilesToSpawn = 4;
     [SerializeField] private TractorBeam tractorBeam;
-    
 
-
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if(other.gameObject.layer == 6 /*Ball layer*/ && other.TryGetComponent(out Projectile projectile))
-        {
-            ObjectPoolManager.ReturnObjectToPool(other.gameObject, (int)EPoolableObjectType.Projectile, (int)projectile.projectileType);
-            SpawnEnemyProjectiles();
-            Died();
-        }
-    }
-
-    private void SpawnEnemyProjectiles()
+    public void SpawnEnemyProjectiles()
     {
         float angleStep = 360f / projectilesToSpawn;
         for (int i = 0; i < projectilesToSpawn; i++)
@@ -43,12 +31,15 @@ public class AbductorUFO : AbstractDamageable
 
     public override void TakeDamage(int dmg, Vector2 impactDirection)
     {
+        Debug.Log("Adductor Take Damage: " + dmg);
         Health -= dmg;
         WaveManager.Instance.TotalEnemyHealth -= dmg;
         Jitter(impactDirection);
         if(Health <= 0) Died();
         else SwitchColorIndex(Health);
     }
+
+    public void Die() => Died();
 
     protected override void Died()
     {

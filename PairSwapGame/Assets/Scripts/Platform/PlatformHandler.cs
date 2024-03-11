@@ -8,7 +8,6 @@ public class PlatformHandler : MonoBehaviour
     public Camera cam;
     [SerializeField] private float yPosition = -8.5f;
     [SerializeField] private Vector2 xRange = new Vector2(-8.5f, 8.5f);
-    [SerializeField] private float speed = 1;
     private Vector2 lastPosition;
     private Vector2 velocity;
     [Range(0, 1)]

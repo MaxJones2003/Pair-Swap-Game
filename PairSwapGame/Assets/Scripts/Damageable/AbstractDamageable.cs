@@ -62,7 +62,7 @@ public abstract class AbstractDamageable : MonoBehaviour
     
     protected void SwitchColorIndex(int health)
     {
-        int newIndex = 0;
+        int newIndex;
         switch (health)
         {
             case int n when n >= 0 && n <= 5:
@@ -107,12 +107,14 @@ public abstract class AbstractDamageable : MonoBehaviour
     {
         Vector3 start = transform.position;
         float elapsedTime = 0;
+        float t;
+        float curveValue;
 
         while (elapsedTime < duration)
         {
             elapsedTime += Time.deltaTime;
-            float t = elapsedTime / duration; // Normalized time
-            float curveValue = moveCurve.Evaluate(t); // Apply the animation curve
+            t = elapsedTime / duration; // Normalized time
+            curveValue = moveCurve.Evaluate(t); // Apply the animation curve
             transform.position = Vector3.Lerp(start, target, curveValue);
             yield return null; // Wait for the next frame
         }

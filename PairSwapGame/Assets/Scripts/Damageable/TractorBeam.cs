@@ -4,21 +4,43 @@ using UnityEngine;
 
 public class TractorBeam : MonoBehaviour
 {
+    [SerializeField] private AbductorUFO UFO;
+    [SerializeField] private Transform destroyTarget;
+    [SerializeField] private LayerMask layerMask;
     [HideInInspector] public Rigidbody2D currentRigidbody;
     public Coroutine Abduct;
 
     [SerializeField] private Transform target;
     public float slowDownRate = 0.15f; // How much to reduce the velocity each frame
     public float lerpSpeed = 0.05f; // Speed of the lerp movement
+    bool Abducting => Abduct != null;
+    private static float radius = 1;
+    private static Vector2 up = Vector2.up;
 
-    void Start()
+    void Update()
     {
-        // Initialization if needed
+        if(Abducting)
+        {
+            Debug.Log("buggin");
+            CheckForDestruction();
+        }
+    }
+    void CheckForDestruction()
+    {
+        RaycastHit2D[] hits = Physics2D.CircleCastAll(destroyTarget.position, radius, up, layerMask);
+        int len = hits.Length;
+        for(int i = 0; i < len; i++)
+            if(hits[i].transform.TryGetComponent(out Projectile projectile))
+            {
+                ObjectPoolManager.ReturnObjectToPool(hits[i].transform.gameObject, (int)EPoolableObjectType.Projectile, (int)projectile.projectileType);
+                UFO.SpawnEnemyProjectiles();
+                UFO.Die();
+            }
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.TryGetComponent(out Projectile projectile))
+        if(other.gameObject.layer == 6 /*Ball layer*/ && other.TryGetComponent(out Projectile projectile))
         {
             StartAbduction(projectile);
         }
@@ -64,5 +86,9 @@ public class TractorBeam : MonoBehaviour
             }
             yield return null;
         }
+    }
+    void OnDrawGizmos()
+    {
+        Gizmos.DrawSphere(destroyTarget.position, radius);
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class WaveManager : MonoBehaviour
@@ -8,7 +9,6 @@ public class WaveManager : MonoBehaviour
     public static WaveManager Instance;
     public GameObject[] enemyPrefabs;
     [HideInInspector] public List<AbstractDamageable> spawnedEnemies;
-    private int currentWave = 0;
     [SerializeField] private int currentHealthGate = 100;
     [SerializeField] private int totalEnemyHealth = 0;
     public int TotalEnemyHealth
@@ -20,6 +20,7 @@ public class WaveManager : MonoBehaviour
         set
         {
             totalEnemyHealth = value;
+            if(totalEnemyHealth < 0) totalEnemyHealth = 0;
             if(totalEnemyHealth < currentHealthGate)
             {
                 SpawnEnemy();
@@ -69,6 +70,19 @@ public class WaveManager : MonoBehaviour
         enemyScript.SetUp(health, finalPos);
         TotalEnemyHealth += health;
     }
+    public void SpawnEnemy(EEnemyType enemyEnum)
+    {
+        int enemyEnumValue = (int)enemyEnum;
+        AbstractDamageable enemyScript = ObjectPoolManager.SpawnObject(enemyPrefabs[enemyEnumValue], leftOrRight ? spawnLeft : spawnRight, Quaternion.identity,
+                                                            (int)EPoolableObjectType.Enemy, enemyEnumValue).GetComponent<AbstractDamageable>();
+        leftOrRight = !leftOrRight;
+        int health = PickHealth(enemyEnum);
+        Vector2 finalPos = SelectTargetPos();
+        enemyScript.SetUp(health, finalPos);
+        TotalEnemyHealth += health;
+        currentHealthGate++;
+        difficulty *= 1.01f;
+    }
 
     private Vector2 SelectTargetPos()
     {
@@ -99,11 +113,30 @@ public class WaveManager : MonoBehaviour
     private void SetNextEnemies()
     {
         int len = plannedEnemies.Length;
-        for(int i = 0; i < len; i++)
+        for (int i = 0; i < len; i++)
         {
-            plannedEnemies[i] = random.NextEnum<EEnemyType>();
+            plannedEnemies[i] = GetRandomWeightedEnemyType();
         }
         enemyIndex = 0;
+    }
+
+    private EEnemyType GetRandomWeightedEnemyType()
+    {
+        var values = (EEnemyType[])Enum.GetValues(typeof(EEnemyType));
+        var weights = values.Select(v => v.GetWeight()).ToArray();
+        var cumulativeDistribution = new int[weights.Length];
+        int totalWeight = 0;
+
+        for (int i = 0; i < weights.Length; i++)
+        {
+            totalWeight += weights[i];
+            cumulativeDistribution[i] = totalWeight;
+        }
+
+        int randomValue = random.Next(totalWeight);
+        int selectedIndex = Array.FindIndex(cumulativeDistribution, x => x >= randomValue);
+
+        return values[selectedIndex];
     }
     private static readonly Vector2 Size = new(0.5f, 0.5f);
     void OnDrawGizmos()
@@ -112,11 +145,30 @@ public class WaveManager : MonoBehaviour
         Gizmos.DrawCube(spawnRight, Size);
     }
 }
-public static class RandomExtensions
+public static class EnemyTypeExtensions
+{
+    public static int GetWeight(this EEnemyType enemyType)
+    {
+        switch (enemyType)
+        {
+            case EEnemyType.Small:
+                return 10;
+            case EEnemyType.Big:
+                return 7; 
+            case EEnemyType.Abductor:
+                return 3;
+            case EEnemyType.Dropper:
+                return 3; 
+            default:
+                return 1; // Default weight
+        }
+    }
+}
+/* public static class RandomExtensions
 {   
     public static T NextEnum<T>(this System.Random random) where T : struct, Enum
     {
         var values = (T[])Enum.GetValues(typeof(T));
         return values[random.Next(values.Length)];
     }
-}
+} */
